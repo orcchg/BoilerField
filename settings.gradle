@@ -1,2 +1,8 @@
-include ':app'
+include ':app',
+        ':core:base',
+        ':core:domain',
+        ':library:data',
+        ':library:datainterface',
+        ':library:repository'
+
 rootProject.name='BoilerField'
