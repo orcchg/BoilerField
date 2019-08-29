@@ -1,0 +1,450 @@
+/**
+ * Inspired with: {@see https://hackernoon.com/android-how-to-add-gradle-dependencies-using-foreach-c4cbcc070458#.jy8ip88jc}
+ */
+apply from: "$rootProject.projectDir/buildsystem/versions.gradle"
+
+ext {
+    d_android = [
+            annotation: "androidx.annotation:annotation:${androidAnnotationVersion}",
+            appcompat:  "androidx.appcompat:appcompat:${androidAppCompatVersion}",
+            core:       "androidx.core:core:${androidCoreVersion}",
+            fragment:   "androidx.fragment:fragment:${androidFragmentVersion}",
+            install:    "com.android.installreferrer:installreferrer:${androidInstallReferrerVersion}",
+            localBroadcast: "androidx.localbroadcastmanager:localbroadcastmanager:${jetpackVersion}",
+            material:   "com.google.android.material:material:${androidMaterialVersion}",
+
+//            supportFragment: "com.android.support:support-fragment:${androidSupportLibraryVersion}",
+            supportLocalBroadcast: "com.android.support:localbroadcastmanager:${androidSupportLibraryVersion}",
+    ]
+
+    d_android_view = [
+            cardView:   "androidx.cardview:cardview:${androidCardViewVersion}",
+            constraint: "androidx.constraintlayout:constraintlayout:${androidConstraintLayoutVersion}",
+            recycler:   "androidx.recyclerview:recyclerview:${androidRecyclerViewVersion}",
+            viewpager:  "androidx.viewpager:viewpager:${androidViewPagerVersion}",
+    ]
+
+    d_arch = [
+            lifecycle:         "androidx.lifecycle:lifecycle-common:${archComponentsVersion}",
+            lifecycleCompiler: "androidx.lifecycle:lifecycle-compiler:${archComponentsVersion}",
+            lifecycleExt:      "androidx.lifecycle:lifecycle-extensions:${archComponentsVersion}",
+            lifecycleRx:       "androidx.lifecycle:lifecycle-reactivestreams:${archComponentsVersion}",
+            lifedata:          "androidx.lifecycle:lifecycle-livedata:${archComponentsVersion}",
+            viewmodel:         "androidx.lifecycle:lifecycle-viewmodel:${archComponentsVersion}",
+
+            paging:       "androidx.paging:paging-common:${archComponentsVersion}",
+
+            room:         "androidx.room:room-common:${archComponentsVersion}",
+            roomCompiler: "androidx.room:room-compiler:${archComponentsVersion}",
+            roomRx:       "androidx.room:room-rxjava2:${archComponentsVersion}",
+    ]
+
+    d_kotlin = [
+            ktStdLib:     "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}",
+            ktCoroutines: "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}",
+            ktReflect:    "org.jetbrains.kotlin:kotlin-reflect:${kotlinReflectVersion}",
+    ]
+
+    d_dagger = [
+            dagger:                 "com.google.dagger:dagger:${daggerVersion}",
+            daggerAndroid:          "com.google.dagger:dagger-android:${daggerVersion}",
+            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${daggerVersion}",
+            daggerAndroidSupport:   "com.google.dagger:dagger-android-support:${daggerVersion}",
+            daggerCompiler:         "com.google.dagger:dagger-compiler:${daggerVersion}",
+    ]
+
+    d_google = [
+            googlePlayServices:         "com.google.android.gms:play-services-base:${googlePlayServicesVersion}",
+            googlePlayServicesAds:      "com.google.android.gms:play-services-ads:${googlePlayServicesVersion}",
+    ]
+
+    d_libs = [
+            confetti:       "com.github.jinatonic.confetti:confetti:${confettiVersion}",
+            cropiwa:        "com.steelkiwi:cropiwa:${cropiwaVersion}",
+            glide:          "com.github.bumptech.glide:glide:${glideVersion}",
+            glideCompiler:  "com.github.bumptech.glide:compiler:${glideVersion}",
+            glideAnnotation: "com.github.bumptech.glide:annotations:${glideVersion}",
+            glideOkHttp:    "com.github.bumptech.glide:okhttp3-integration:${glideVersion}",
+            glideRecycler:  "com.github.bumptech.glide:recyclerview-integration:${glideVersion}",
+
+            branch:            "io.branch.sdk.android:library:${branchVersion}",
+//            deeplink:          "com.airbnb:deeplinkdispatch:${deeplinkVersion}",
+//            deeplinkProcessor: "com.airbnb:deeplinkdispatch-processor:${deeplinkVersion}",
+            deeplink:          "com.github.airbnb.DeepLinkDispatch:deeplinkdispatch:eb7e520d87",
+            deeplinkProcessor: "com.github.airbnb.DeepLinkDispatch:deeplinkdispatch-processor:eb7e520d87",
+            facebook:          "com.facebook.android:facebook-android-sdk:${facebookVersion}",
+            firebase:          "com.google.firebase:firebase-core:${firebaseVersion}",
+            firebaseMessaging: "com.google.firebase:firebase-messaging:$firebaseMessagingVersion",
+            firebasePerformance: "com.google.firebase:firebase-perf:${firebasePerformanceVersion}",
+            firebaseReferral:  "com.google.firebase:firebase-dynamic-links:${firebaseReferralVersion}",
+            flurry:            "com.flurry.android:analytics:${flurryVersion}",
+
+            eventBus:       "org.greenrobot:eventbus:${eventBusVersion}",
+            fragNav:        "com.ncapdevi:frag-nav:${fragNavVersion}",
+            fresco:         "com.facebook.fresco:fresco:${frescoVersion}",
+            gson:           "com.google.code.gson:gson:${gsonVersion}",
+            jobQueue:       "com.birbit:android-priority-jobqueue:${jobQueueVersion}",
+            jodaTime:       "net.danlew:android.joda:${jodaTimeVersion}",
+            workManager:    "com.evernote:android-job:${workManagerVersion}",
+    ]
+
+    d_network = [
+            logInterceptor: "com.github.ihsanbal:LoggingInterceptor:${logInterceptorVersion}",
+
+            okhttp:       "com.squareup.okhttp3:okhttp:${okHttpVersion}",
+            okhttpLog:    "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}",
+
+            retrofit:     "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofitGson: "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            retrofitRx:   "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+    ]
+
+    d_rx = [
+            rx:              "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            rxAndroid:       "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxKotlin:        "io.reactivex.rxjava2:rxkotlin:${rxKotlinVersion}",
+            rxBinding:       "com.jakewharton.rxbinding3:rxbinding:${rxBindingVersion}",
+            rxBindCore:      "com.jakewharton.rxbinding3:rxbinding-core:${rxBindingVersion}",
+            rxBindCompat:    "com.jakewharton.rxbinding3:rxbinding-appcompat:${rxBindingVersion}",
+            rxBindRecycler:  "com.jakewharton.rxbinding3:rxbinding-recyclerview:${rxBindingVersion}",
+            rxBindSwipe:     "com.jakewharton.rxbinding3:rxbinding-swiperefreshlayout:${rxBindingVersion}",
+            rxBindViewPager: "com.jakewharton.rxbinding3:rxbinding-viewpager:${rxBindingVersion}",
+            autoDispose:     "com.uber.autodispose:autodispose-android-ktx:${autoDisposeVersion}",
+            autoDisposeAC:   "com.uber.autodispose:autodispose-android-archcomponents:${autoDisposeVersion}",
+            autoDisposeKt:   "com.uber.autodispose:autodispose-lifecycle-ktx:${autoDisposeVersion}",
+    ]
+
+    d_test = [
+            archTest:     "androidx.arch.core:core-testing:${archComponentsVersion}",
+            archRoomTest: "androidx.room:room-testing:${archComponentsVersion}",
+
+            espresso:    "androidx.test.espresso:espresso-core:${espressoVersion}",
+            googleTruth: "com.google.truth:truth:${googleTruthVersion}",
+            junit:       "junit:junit:${junitVersion}",
+            testCore:    "androidx.test:core:${testCoreVersion}",
+            testRunner:  "androidx.test:runner:${testVersion}",
+            testRules:   "androidx.test:rules:${testVersion}"
+    ]
+
+    d_view = [
+            circularProgress: "com.mikhaellopez:circularprogressbar:${circularProgressVersion}",
+            dotsIndicator:    "me.relex:circleindicator:${dotsIndicatorVersion}",
+            dotsIndicatorFix: "com.afollestad:viewpagerdots:${dotsIndicatorFixVersion}",
+            overscroll:       "me.everything:overscroll-decor-android:${overscrollVersion}",
+            seekbar:          "com.github.warkiz.widget:indicatorseekbar:${seekbarVersion}",
+            rangeSeekbar:     "com.github.Innovattic:range-seek-bar:${rangeSeekbarVersion}",
+            rvAnim:           "jp.wasabeef:recyclerview-animators:${rvAnimVersion}",
+            rvItemAnim:       "com.mikepenz:itemanimators:${rvItemAnimVersion}",
+    ]
+
+    d_support = [
+            crashlytics: "com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}",
+            leakCanary:  "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}",
+            leakCanaryObjectWatcher: "com.squareup.leakcanary:leakcanary-object-watcher-android:${leakCanaryVersion}",
+            multidex:    "com.android.support:multidex:${multidexVersion}",
+            sentry:      "io.sentry:sentry-android:${sentryVersion}",
+            timber:      "com.jakewharton.timber:timber:${timberVersion}",
+    ]
+
+    /* Modules */
+    // --------------------------------------------------------------------------------------------
+    modules = [
+            app:            ':app',
+            list:           ':feature:list',
+            details:        ':feature:details',
+
+            base:           ':core:base',
+
+            data:           ':library:data',
+            datainterface:  ':library:datainterface',
+            repository:     ':library:repository',
+            domain:         ':core:domain',
+    ]
+
+    def List = [[configuration: "implementation", dependency: project(modules.list)]]
+    def Details = [[configuration: "implementation", dependency: project(modules.details)]]
+
+    def Base = [[configuration: "implementation", dependency: project(modules.base)]]
+
+    def Data = [[configuration: "implementation", dependency: project(modules.data)]]
+    def DataInterface = [[configuration: "implementation", dependency: project(modules.datainterface)]]
+    def Repository = [[configuration: "implementation", dependency: project(modules.repository)]]
+    def Domain = [[configuration: "implementation", dependency: project(modules.domain)]]
+
+    /* Plugins */
+    // --------------------------------------------------------------------------------------------
+    xPlugins = [
+            androidApp:        "com.android.application",
+            androidFeature:    "com.android.feature",
+            androidInstantApp: "com.android.instantapp",
+            androidLib:        "com.android.library",
+            javaLib:           "java-library",
+            fabric:            "io.fabric",
+            firebasePerf:      "com.google.firebase.firebase-perf",
+            google:            "com.google.gms.google-services",
+            kotlin:            "kotlin",
+            kotlinAndroid:     "kotlin-android",
+            kotlinAndroidExt:  "kotlin-android-extensions",
+            kotlinAnnotation:  "kotlin-kapt",
+    ]
+
+    /* Pre-Configured dependencies */
+    // --------------------------------------------------------------------------------------------
+    def android = [
+            [configuration: "implementation", dependency: d_android.annotation],
+            [configuration: "implementation", dependency: d_android.appcompat],
+            [configuration: "implementation", dependency: d_android.core],
+            [configuration: "implementation", dependency: d_android.fragment],
+            [configuration: "implementation", dependency: d_android.localBroadcast],
+    ]
+
+    def androidView = [
+            [configuration: "implementation", dependency: d_android.material],
+            [configuration: "implementation", dependency: d_android_view.cardView],
+            [configuration: "implementation", dependency: d_android_view.constraint],
+            [configuration: "implementation", dependency: d_android_view.recycler],
+            [configuration: "implementation", dependency: d_android_view.viewpager],
+    ]
+
+    def arch = [
+            [configuration: "kapt", dependency: d_arch.lifecycleCompiler],
+            [configuration: "implementation", dependency: d_arch.lifecycle],
+            [configuration: "implementation", dependency: d_arch.lifecycleExt],
+            [configuration: "implementation", dependency: d_arch.lifecycleRx],
+            [configuration: "implementation", dependency: d_arch.lifedata],
+            [configuration: "implementation", dependency: d_arch.viewmodel],
+//            [configuration: "implementation", dependency: d_arch.paging],
+    ]
+
+    def dagger = [
+            [configuration: "kapt", dependency: d_dagger.daggerAndroidProcessor],
+            [configuration: "kapt", dependency: d_dagger.daggerCompiler],
+            [configuration: "implementation", dependency: d_dagger.dagger],
+            [configuration: "implementation", dependency: d_dagger.daggerAndroid],
+            [configuration: "implementation", dependency: d_dagger.daggerAndroidSupport],
+    ]
+
+    def deeplink = [
+            [configuration: "kapt", dependency: d_libs.deeplinkProcessor],
+            [configuration: "implementation", dependency: d_libs.deeplink],
+    ]
+
+    def fragnav = [
+            [configuration: "implementation", dependency: d_libs.fragNav]
+    ]
+
+    def google = [
+            [configuration: "implementation", dependency: d_google.googlePlayServices],
+            [configuration: "implementation", dependency: d_google.googlePlayServicesAds],
+    ]
+
+    def gson = [
+            [configuration: "implementation", dependency: d_libs.gson],
+    ]
+
+    def kotlin = [
+            [configuration: "implementation", dependency: d_kotlin.ktStdLib],
+            [configuration: "implementation", dependency: d_kotlin.ktCoroutines],
+            [configuration: "implementation", dependency: d_kotlin.ktReflect],
+    ]
+
+    def leaks = [
+            [configuration: "debugImplementation", dependency: d_support.leakCanary],
+            [configuration: "implementation", dependency: d_support.leakCanaryObjectWatcher],
+    ]
+
+    def log = [
+            [configuration: "implementation", dependency: d_support.timber],
+    ]
+
+    def net = [
+            [configuration: "implementation", dependency: d_network.logInterceptor, options: { exclude group: 'org.json', module: 'json' }],
+            [configuration: "implementation", dependency: d_network.okhttp],
+            [configuration: "implementation", dependency: d_network.okhttpLog],
+            [configuration: "implementation", dependency: d_network.retrofit],
+            [configuration: "implementation", dependency: d_network.retrofitGson],
+            [configuration: "implementation", dependency: d_network.retrofitRx],
+    ]
+
+    def room = [
+            [configuration: "kapt", dependency: d_arch.roomCompiler],
+            [configuration: "implementation", dependency: d_arch.room],
+            [configuration: "implementation", dependency: d_arch.roomRx],
+    ]
+
+    def rx = [
+            [configuration: "implementation", dependency: d_rx.rx],
+            [configuration: "implementation", dependency: d_rx.rxAndroid],
+    ]
+
+    def rxBind = [
+            [configuration: "implementation", dependency: d_rx.rxBinding],
+            [configuration: "implementation", dependency: d_rx.rxBindCore],
+            [configuration: "implementation", dependency: d_rx.rxBindCompat],
+            [configuration: "implementation", dependency: d_rx.rxBindRecycler],
+            [configuration: "implementation", dependency: d_rx.rxBindSwipe],
+            [configuration: "implementation", dependency: d_rx.rxBindViewPager],
+    ]
+
+    def autoDispose = [
+            [configuration: "implementation", dependency: d_rx.autoDispose],
+            [configuration: "implementation", dependency: d_rx.autoDisposeAC],
+            [configuration: "implementation", dependency: d_rx.autoDisposeKt],
+    ]
+
+    def view = [
+            [configuration: "implementation", dependency: d_view.circularProgress],
+            [configuration: "implementation", dependency: d_view.dotsIndicator],
+            [configuration: "implementation", dependency: d_view.dotsIndicatorFix],
+            [configuration: "implementation", dependency: d_view.overscroll],
+            [configuration: "implementation", dependency: d_view.rvAnim],
+            [configuration: "implementation", dependency: d_view.rvItemAnim],
+    ]
+
+    def support = [
+            [configuration: "implementation", dependency: d_support.crashlytics, options: { transitive = true }],
+//            [configuration: "implementation", dependency: d_support.multidex],
+    ]
+
+    // ------------------------------------------
+    def androidTest = [
+            [configuration: "androidTestImplementation", dependency: d_test.espresso],
+            [configuration: "androidTestImplementation", dependency: d_test.googleTruth],
+            [configuration: "androidTestImplementation", dependency: d_test.testCore],
+            [configuration: "androidTestImplementation", dependency: d_test.testRunner],
+            [configuration: "androidTestImplementation", dependency: d_test.testRules],
+    ]
+
+    def test = [
+            [configuration: "testImplementation", dependency: d_test.junit],
+            [configuration: "testImplementation", dependency: d_test.archTest],
+            [configuration: "testImplementation", dependency: d_test.archRoomTest],
+    ]
+
+    /* Dependencies */
+    // --------------------------------------------------------------------------------------------
+    /* App */
+    // ------------------------------------------
+    appDependencies = []
+    appDependencies += List + Details + Data + DataInterface + Base + Domain + Repository +
+            android + androidView + autoDispose + dagger + deeplink + fragnav +
+            kotlin + leaks + log + net + room + support
+
+    androidTestAppDeps = androidTest
+    testAppDependencies = test
+
+    appPlugins = [
+            xPlugins.androidApp,
+            xPlugins.kotlinAndroid,
+            xPlugins.kotlinAnnotation,
+            xPlugins.fabric,
+    ]
+
+    appPluginsAtBottom = [
+            xPlugins.google,
+    ]
+
+    /* Feature List */
+    // ------------------------------------------
+    listDependencies = [
+            [configuration: "implementation", dependency: d_libs.fresco],
+    ]
+    listDependencies += Base + Domain + android + arch + autoDispose +
+                        dagger + deeplink + kotlin + log + rx + rxBind
+
+    androidTestListDeps = androidTest
+    testListDependencies = test
+
+    listPlugins = [
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
+            xPlugins.kotlinAndroidExt,
+            xPlugins.kotlinAnnotation,
+    ]
+
+    /* Feature Details */
+    // ------------------------------------------
+    detailsDependencies = [
+            [configuration: "implementation", dependency: d_libs.fresco],
+    ]
+    detailsDependencies += Base + Domain + android + androidView + arch + autoDispose +
+                           dagger + deeplink + gson + kotlin + log + rx + rxBind + view
+
+    androidTestDetailsDeps = androidTest
+    testDetailsDependencies = test
+
+    detailsPlugins = [
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
+            xPlugins.kotlinAndroidExt,
+            xPlugins.kotlinAnnotation,
+    ]
+
+    /* Base */
+    // ------------------------------------------
+    baseDependencies = [
+            [configuration: "implementation", dependency: d_libs.eventBus],
+    ]
+    baseDependencies += Domain + android + androidView + arch + autoDispose +
+                        dagger + deeplink + google + kotlin + leaks + log + rx + rxBind
+
+    androidTestBaseDeps = androidTest
+    testBaseDependencies = test
+
+    basePlugins = [
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
+            xPlugins.kotlinAndroidExt,
+            xPlugins.kotlinAnnotation,
+    ]
+
+    /* Data */
+    // ------------------------------------------
+    dataDependencies = [
+            [configuration: "implementation", dependency: d_rx.rxKotlin]
+    ]
+    dataDependencies += DataInterface + Domain + autoDispose + dagger + gson + kotlin + log + net + room + rx
+    testDataDependencies = test
+
+    dataPlugins = [
+            xPlugins.javaLib,
+            xPlugins.kotlin,
+            xPlugins.kotlinAnnotation,
+    ]
+
+    /* Data Interface */
+    // ------------------------------------------
+    dataInterfaceDependencies = []
+    dataInterfaceDependencies += Domain + gson + kotlin + rx
+    testDataInterfaceDependencies = test
+
+    dataInterfacePlugins = [
+            xPlugins.javaLib,
+            xPlugins.kotlin,
+    ]
+
+    /* Domain */
+    // ------------------------------------------
+    domainDependencies = []
+    domainDependencies += autoDispose + gson + kotlin + log + rx
+    testDomainDependencies = test
+
+    domainPlugins = [
+            xPlugins.javaLib,
+            xPlugins.kotlin,
+    ]
+
+    /* Repository */
+    // ------------------------------------------
+    repositoryDependencies = [
+            [configuration: "implementation", dependency: d_rx.rxKotlin]
+    ]
+    repositoryDependencies += Data + DataInterface + Domain + dagger + kotlin + log + rx
+    testRepositoryDependencies = test
+
+    repositoryPlugins = [
+            xPlugins.javaLib,
+            xPlugins.kotlin,
+            xPlugins.kotlinAnnotation,
+    ]
+}

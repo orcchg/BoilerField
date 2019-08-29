@@ -1,0 +1,21 @@
+rootProject.listPlugins.each {
+    apply plugin: it
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def listDependencies = rootProject.ext.listDependencies
+    def androidTestListDeps = rootProject.ext.androidTestListDeps
+    def testListDependencies = rootProject.ext.testListDependencies
+
+    listDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+    testListDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+    androidTestListDeps.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+}

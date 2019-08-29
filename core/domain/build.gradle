@@ -1,0 +1,17 @@
+rootProject.domainPlugins.each {
+    apply plugin: it
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def domainDependencies = rootProject.ext.domainDependencies
+    def testDomainDependencies = rootProject.ext.testDomainDependencies
+
+    domainDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+    testDomainDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+}

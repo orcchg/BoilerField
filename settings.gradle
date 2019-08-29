@@ -1,6 +1,8 @@
 include ':app',
         ':core:base',
         ':core:domain',
+        ':feature:list',
+        ':feature:details',
         ':library:data',
         ':library:datainterface',
         ':library:repository'

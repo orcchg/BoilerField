@@ -1,8 +1,17 @@
-apply plugin: 'java-library'
+rootProject.dataInterfacePlugins.each {
+    apply plugin: it
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-}
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
+    def dataInterfaceDependencies = rootProject.ext.dataInterfaceDependencies
+    def testDataInterfaceDependencies = rootProject.ext.testDataInterfaceDependencies
+
+    dataInterfaceDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+    testDataInterfaceDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+}
