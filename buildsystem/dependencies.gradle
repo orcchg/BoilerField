@@ -53,6 +53,11 @@ ext {
             daggerCompiler:         "com.google.dagger:dagger-compiler:${daggerVersion}",
     ]
 
+    d_di = [
+            toothpick:   "com.github.stephanenicolas.toothpick:ktp:${toothpickVersion}",
+            toothpickCompiler:   "com.github.stephanenicolas.toothpick:toothpick-compiler:${toothpickVersion}"
+    ]
+
     d_google = [
             googlePlayServices:         "com.google.android.gms:play-services-base:${googlePlayServicesVersion}",
             googlePlayServicesAds:      "com.google.android.gms:play-services-ads:${googlePlayServicesVersion}",
@@ -286,6 +291,11 @@ ext {
             [configuration: "implementation", dependency: d_rx.rxBindViewPager],
     ]
 
+    def toothpick = [
+            [configuration: "kapt", dependency: d_di.toothpickCompiler],
+            [configuration: "implementation", dependency: d_di.toothpick],
+    ]
+
     def autoDispose = [
             [configuration: "implementation", dependency: d_rx.autoDispose],
             [configuration: "implementation", dependency: d_rx.autoDisposeAC],
@@ -327,7 +337,7 @@ ext {
     // ------------------------------------------
     appDependencies = []
     appDependencies += List + Details + Data + DataInterface + Base + Domain + Repository +
-            android + androidView + autoDispose + dagger + deeplink + fragnav +
+            android + androidView + autoDispose + toothpick + deeplink + fragnav +
             kotlin + leaks + log + net + room + support
 
     androidTestAppDeps = androidTest
@@ -350,7 +360,7 @@ ext {
             [configuration: "implementation", dependency: d_libs.fresco],
     ]
     listDependencies += Base + Domain + android + arch + autoDispose +
-                        dagger + deeplink + kotlin + log + rx + rxBind
+                        toothpick + deeplink + kotlin + log + rx + rxBind
 
     androidTestListDeps = androidTest
     testListDependencies = test
@@ -368,7 +378,7 @@ ext {
             [configuration: "implementation", dependency: d_libs.fresco],
     ]
     detailsDependencies += Base + Domain + android + androidView + arch + autoDispose +
-                           dagger + deeplink + gson + kotlin + log + rx + rxBind + view
+                           toothpick + deeplink + gson + kotlin + log + rx + rxBind + view
 
     androidTestDetailsDeps = androidTest
     testDetailsDependencies = test
@@ -386,7 +396,7 @@ ext {
             [configuration: "implementation", dependency: d_libs.eventBus],
     ]
     baseDependencies += Domain + android + androidView + arch + autoDispose +
-                        dagger + deeplink + google + kotlin + leaks + log + rx + rxBind
+                        toothpick + deeplink + google + kotlin + leaks + log + rx + rxBind
 
     androidTestBaseDeps = androidTest
     testBaseDependencies = test
@@ -403,7 +413,7 @@ ext {
     dataDependencies = [
             [configuration: "implementation", dependency: d_rx.rxKotlin]
     ]
-    dataDependencies += DataInterface + Domain + autoDispose + dagger + gson + kotlin + log + net + room + rx
+    dataDependencies += DataInterface + Domain + autoDispose + toothpick + gson + kotlin + log + net + room + rx
     testDataDependencies = test
 
     dataPlugins = [
@@ -439,7 +449,7 @@ ext {
     repositoryDependencies = [
             [configuration: "implementation", dependency: d_rx.rxKotlin]
     ]
-    repositoryDependencies += Data + DataInterface + Domain + dagger + kotlin + log + rx
+    repositoryDependencies += Data + DataInterface + Domain + toothpick + kotlin + log + rx
     testRepositoryDependencies = test
 
     repositoryPlugins = [
