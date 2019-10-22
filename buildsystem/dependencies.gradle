@@ -184,7 +184,7 @@ ext {
             androidInstantApp: "com.android.instantapp",
             androidLib:        "com.android.library",
             javaLib:           "java-library",
-            fabric:            "io.fabric",
+//            fabric:            "io.fabric",
             firebasePerf:      "com.google.firebase.firebase-perf",
             google:            "com.google.gms.google-services",
             kotlin:            "kotlin",
@@ -312,7 +312,7 @@ ext {
     ]
 
     def support = [
-            [configuration: "implementation", dependency: d_support.crashlytics, options: { transitive = true }],
+//            [configuration: "implementation", dependency: d_support.crashlytics, options: { transitive = true }],
 //            [configuration: "implementation", dependency: d_support.multidex],
     ]
 
@@ -337,8 +337,8 @@ ext {
     // ------------------------------------------
     appDependencies = []
     appDependencies += List + Details + Data + DataInterface + Base + Domain + Repository +
-            android + androidView + autoDispose + toothpick + deeplink + fragnav +
-            kotlin + leaks + log + net + room + support
+                       android + androidView + autoDispose + toothpick + deeplink + fragnav +
+                       kotlin + leaks + log + net + room + support
 
     androidTestAppDeps = androidTest
     testAppDependencies = test
@@ -347,7 +347,7 @@ ext {
             xPlugins.androidApp,
             xPlugins.kotlinAndroid,
             xPlugins.kotlinAnnotation,
-            xPlugins.fabric,
+//            xPlugins.fabric,
     ]
 
     appPluginsAtBottom = [
