@@ -2,8 +2,8 @@ package com.orcchg.boilerfield
 
 import com.orcchg.boilerfield.di.DaggerAppComponent
 import com.orcchg.boilerfield.origin.BaseApp
-import com.orcchg.data.remote.di.CloudModule
-import com.orcchg.data.remote.github.di.GithubCloudModule
+import com.orcchg.data.remote.cloud.di.CloudModule
+import com.orcchg.data.remote.cloud.github.di.GithubCloudModule
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 

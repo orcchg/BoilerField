@@ -2,7 +2,7 @@ rootProject.dataPlugins.each {
     apply plugin: it
 }
 
-java {
+android {
     kapt {
         arguments {
             arg("room.schemaLocation", "$projectDir/schemas".toString())

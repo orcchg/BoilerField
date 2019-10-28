@@ -87,6 +87,7 @@ ext {
             eventBus:       "org.greenrobot:eventbus:${eventBusVersion}",
             fragNav:        "com.ncapdevi:frag-nav:${fragNavVersion}",
             fresco:         "com.facebook.fresco:fresco:${frescoVersion}",
+            greenEssential: "org.greenrobot:essentials:${greenEssentialVersion}",
             gson:           "com.google.code.gson:gson:${gsonVersion}",
             jobQueue:       "com.birbit:android-priority-jobqueue:${jobQueueVersion}",
             jodaTime:       "net.danlew:android.joda:${jodaTimeVersion}",
@@ -160,11 +161,15 @@ ext {
             origin:         ':feature:origin',
 
             base:           ':core:base',
+            domain:         ':core:domain',
 
             data:           ':library:data',
             datainterface:  ':library:datainterface',
             repository:     ':library:repository',
-            domain:         ':core:domain',
+            report:         ':library:report',
+
+            utility:        ':library:utility',
+            widget:         ':library:widget',
     ]
 
     def List = [[configuration: "implementation", dependency: project(modules.list)]]
@@ -176,7 +181,11 @@ ext {
     def Data = [[configuration: "implementation", dependency: project(modules.data)]]
     def DataInterface = [[configuration: "implementation", dependency: project(modules.datainterface)]]
     def Repository = [[configuration: "implementation", dependency: project(modules.repository)]]
+    def Report = [[configuration: "implementation", dependency: project(modules.report)]]
     def Domain = [[configuration: "implementation", dependency: project(modules.domain)]]
+
+    def Utility = [[configuration: "implementation", dependency: project(modules.utility)]]
+    def Widget = [[configuration: "implementation", dependency: project(modules.widget)]]
 
     /* Plugins */
     // --------------------------------------------------------------------------------------------
@@ -339,7 +348,7 @@ ext {
     // ------------------------------------------
     appDependencies = []
     appDependencies += List + Details + Origin + Data + DataInterface + Base + Domain + Repository +
-                       android + androidView + autoDispose + dagger + deeplink + fragnav +
+                       Utility + Widget + android + androidView + autoDispose + dagger + deeplink + fragnav +
                        kotlin + leaks + log + net + room + support
 
     androidTestAppDeps = androidTest
@@ -413,7 +422,7 @@ ext {
     baseDependencies = [
             [configuration: "implementation", dependency: d_libs.eventBus],
     ]
-    baseDependencies += Domain + android + androidView + arch + autoDispose +
+    baseDependencies += Domain + Utility + android + androidView + arch + autoDispose +
                         dagger + deeplink + google + kotlin + leaks + log + rx + rxBind
 
     androidTestBaseDeps = androidTest
@@ -435,8 +444,8 @@ ext {
     testDataDependencies = test
 
     dataPlugins = [
-            xPlugins.javaLib,
-            xPlugins.kotlin,
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
             xPlugins.kotlinAnnotation,
     ]
 
@@ -447,19 +456,20 @@ ext {
     testDataInterfaceDependencies = test
 
     dataInterfacePlugins = [
-            xPlugins.javaLib,
-            xPlugins.kotlin,
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
     ]
 
     /* Domain */
     // ------------------------------------------
     domainDependencies = []
-    domainDependencies += autoDispose + gson + kotlin + log + rx
+    domainDependencies += Report + autoDispose + dagger + gson + kotlin + log + rx
     testDomainDependencies = test
 
     domainPlugins = [
-            xPlugins.javaLib,
-            xPlugins.kotlin,
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
+            xPlugins.kotlinAnnotation,
     ]
 
     /* Repository */
@@ -471,8 +481,48 @@ ext {
     testRepositoryDependencies = test
 
     repositoryPlugins = [
-            xPlugins.javaLib,
-            xPlugins.kotlin,
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
             xPlugins.kotlinAnnotation,
+    ]
+
+    /* Report */
+    // ------------------------------------------
+    reportDependencies = [
+            [configuration: "implementation", dependency: d_support.sentry]
+    ]
+    reportDependencies += kotlin + log + rx
+    testReportDependencies = test
+
+    reportPlugins = [
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
+    ]
+
+    /* Utility */
+    // ------------------------------------------
+    utilityDependencies = [
+            [configuration: "implementation", dependency: d_libs.jodaTime],
+            [configuration: "implementation", dependency: d_libs.greenEssential],
+    ]
+    utilityDependencies += android + androidView + kotlin + log + rx
+    testUtilityDependencies = test
+
+    utilityPlugins = [
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
+            xPlugins.kotlinAnnotation,
+    ]
+
+    /* Widget */
+    // ------------------------------------------
+    widgetDependencies = []
+    widgetDependencies += Utility + android + androidView + kotlin + log + rx + rxBind
+    testWidgetDependencies = test
+
+    widgetPlugins = [
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
+            xPlugins.kotlinAndroidExt,
     ]
 }

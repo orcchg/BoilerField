@@ -6,6 +6,9 @@ include ':app',
         ':feature:origin',
         ':library:data',
         ':library:datainterface',
-        ':library:repository'
+        ':library:repository',
+        ':library:report',
+        ':library:utility',
+        ':library:widget'
 
 rootProject.name='BoilerField'

@@ -3,8 +3,8 @@ package com.orcchg.boilerfield.di
 import android.app.Application
 import android.content.Context
 import com.orcchg.boilerfield.App
-import com.orcchg.data.remote.di.CloudModule
-import com.orcchg.data.remote.github.di.GithubCloudModule
+import com.orcchg.data.remote.cloud.di.CloudModule
+import com.orcchg.data.remote.cloud.github.di.GithubCloudModule
 import com.orcchg.details.di.DetailsActivityModule
 import com.orcchg.list.di.ListFragmentModule
 import dagger.BindsInstance
