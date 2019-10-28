@@ -1,0 +1,5 @@
+package com.orcchg.details
+
+import com.orcchg.base.view.BaseActivity
+
+class DetailsActivity : BaseActivity()

@@ -1,0 +1,21 @@
+rootProject.originPlugins.each {
+    apply plugin: it
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    def originDependencies = rootProject.ext.originDependencies
+    def androidTestOriginDeps = rootProject.ext.androidTestOriginDeps
+    def testOriginDependencies = rootProject.ext.testOriginDependencies
+
+    originDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+    testOriginDependencies.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+    androidTestOriginDeps.each {
+        add(it.configuration, it.dependency, it.options)
+    }
+}

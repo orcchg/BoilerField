@@ -157,6 +157,7 @@ ext {
             app:            ':app',
             list:           ':feature:list',
             details:        ':feature:details',
+            origin:         ':feature:origin',
 
             base:           ':core:base',
 
@@ -168,6 +169,7 @@ ext {
 
     def List = [[configuration: "implementation", dependency: project(modules.list)]]
     def Details = [[configuration: "implementation", dependency: project(modules.details)]]
+    def Origin = [[configuration: "implementation", dependency: project(modules.origin)]]
 
     def Base = [[configuration: "implementation", dependency: project(modules.base)]]
 
@@ -336,7 +338,7 @@ ext {
     /* App */
     // ------------------------------------------
     appDependencies = []
-    appDependencies += List + Details + Data + DataInterface + Base + Domain + Repository +
+    appDependencies += List + Details + Origin + Data + DataInterface + Base + Domain + Repository +
                        android + androidView + autoDispose + dagger + deeplink + fragnav +
                        kotlin + leaks + log + net + room + support
 
@@ -384,6 +386,22 @@ ext {
     testDetailsDependencies = test
 
     detailsPlugins = [
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
+            xPlugins.kotlinAndroidExt,
+            xPlugins.kotlinAnnotation,
+    ]
+
+    /* Base Feature - Origin */
+    // ------------------------------------------
+    originDependencies = []
+    originDependencies += Base + Domain + android + androidView + arch + autoDispose +
+                          dagger + deeplink + gson + kotlin + log + rx + rxBind + view
+
+    androidTestOriginDeps = androidTest
+    testOriginDependencies = test
+
+    originPlugins = [
             xPlugins.androidLib,
             xPlugins.kotlinAndroid,
             xPlugins.kotlinAndroidExt,
