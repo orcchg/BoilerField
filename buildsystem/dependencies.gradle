@@ -79,9 +79,11 @@ ext {
             deeplinkProcessor: "com.github.airbnb.DeepLinkDispatch:deeplinkdispatch-processor:eb7e520d87",
             facebook:          "com.facebook.android:facebook-android-sdk:${facebookVersion}",
             firebase:          "com.google.firebase:firebase-core:${firebaseVersion}",
+            firebaseAnalytics: "com.google.firebase:firebase-analytics:${firebaseAnalyticsVersion}",
+            firebaseDynLink:   "com.google.firebase:firebase-dynamic-links:${firebaseDynLinkVersion}",
             firebaseMessaging: "com.google.firebase:firebase-messaging:$firebaseMessagingVersion",
             firebasePerformance: "com.google.firebase:firebase-perf:${firebasePerformanceVersion}",
-            firebaseReferral:  "com.google.firebase:firebase-dynamic-links:${firebaseReferralVersion}",
+//            firebaseReferral:  "com.google.firebase:firebase-dynamic-links:${firebaseReferralVersion}",
             flurry:            "com.flurry.android:analytics:${flurryVersion}",
 
             eventBus:       "org.greenrobot:eventbus:${eventBusVersion}",
@@ -163,6 +165,7 @@ ext {
             base:           ':core:base',
             domain:         ':core:domain',
 
+            analytics:      ':library:analytics',
             data:           ':library:data',
             datainterface:  ':library:datainterface',
             repository:     ':library:repository',
@@ -177,12 +180,13 @@ ext {
     def Origin = [[configuration: "implementation", dependency: project(modules.origin)]]
 
     def Base = [[configuration: "implementation", dependency: project(modules.base)]]
+    def Domain = [[configuration: "implementation", dependency: project(modules.domain)]]
 
+    def Analytics = [[configuration: "implementation", dependency: project(modules.analytics)]]
     def Data = [[configuration: "implementation", dependency: project(modules.data)]]
     def DataInterface = [[configuration: "implementation", dependency: project(modules.datainterface)]]
     def Repository = [[configuration: "implementation", dependency: project(modules.repository)]]
     def Report = [[configuration: "implementation", dependency: project(modules.report)]]
-    def Domain = [[configuration: "implementation", dependency: project(modules.domain)]]
 
     def Utility = [[configuration: "implementation", dependency: project(modules.utility)]]
     def Widget = [[configuration: "implementation", dependency: project(modules.widget)]]
@@ -414,6 +418,22 @@ ext {
             xPlugins.androidLib,
             xPlugins.kotlinAndroid,
             xPlugins.kotlinAndroidExt,
+            xPlugins.kotlinAnnotation,
+    ]
+
+    /* Analytics */
+    // ------------------------------------------
+    analyticsDependencies = [
+            [configuration: "implementation", dependency: d_libs.facebook],
+            [configuration: "implementation", dependency: d_libs.firebaseAnalytics],
+            [configuration: "implementation", dependency: d_libs.flurry],
+    ]
+    analyticsDependencies += Domain + android + dagger + kotlin + log
+    testAnalyticsDependencies = test
+
+    analyticsPlugins = [
+            xPlugins.androidLib,
+            xPlugins.kotlinAndroid,
             xPlugins.kotlinAnnotation,
     ]
 
