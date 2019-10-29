@@ -16,7 +16,7 @@ import javax.inject.Inject
  * For fetching data:
  * @see https://proandroiddev.com/when-to-load-data-in-viewmodels-ad9616940da7
  */
-class ListViewModel @Inject constructor(
+class GithubUserListViewModel @Inject constructor(
     private val getGithubUsersUseCase: GetGithubUsersUseCase,
     app: Application) : BaseViewModel(app) {
 

@@ -1,6 +1,6 @@
 package com.orcchg.list.di
 
-import com.orcchg.list.view.ListFragment
+import com.orcchg.list.view.GithubUserListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,5 +8,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class ListFragmentModule {
 
     @ContributesAndroidInjector
-    abstract fun provideListFragmentInjector(): ListFragment
+    abstract fun provideListFragmentInjector(): GithubUserListFragment
 }
