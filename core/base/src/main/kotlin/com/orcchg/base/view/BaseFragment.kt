@@ -8,7 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+import com.orcchg.base.livedata.OneShot
 import com.orcchg.base.livedata.observe
 import com.orcchg.base.livedata.viewModel
 import com.orcchg.base.viewmodel.BaseViewModel
@@ -89,7 +92,7 @@ abstract class BaseFragment<T : BaseViewModel> : Fragment() {
         isActivityCreated = true
         vm = viewModel(klass = getVmClass(), factory = vmFactory) {
             // tie observer to view's lifecycle rather than Fragment's one
-            with(viewLifecycleOwner) {
+            with (viewLifecycleOwner) {
                 observe(viewState(), this@BaseFragment::onViewStateChange)
             }
         }

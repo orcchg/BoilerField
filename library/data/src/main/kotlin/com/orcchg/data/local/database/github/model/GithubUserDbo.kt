@@ -25,5 +25,5 @@ data class GithubUserDbo(
         const val TABLE_NAME = "GithubUsers"
     }
 
-    override fun map(): GithubUser = GithubUser(login = login, url = url)
+    override fun map(): GithubUser = GithubUser(login = login, url = url, avatarUrl = avatarUrl)
 }

@@ -374,7 +374,7 @@ ext {
     listDependencies = [
             [configuration: "implementation", dependency: d_libs.fresco],
     ]
-    listDependencies += Base + Domain + android + arch + autoDispose +
+    listDependencies += Base + Domain + Utility + Widget + android + arch + autoDispose +
                         dagger + deeplink + kotlin + log + rx + rxBind
 
     androidTestListDeps = androidTest

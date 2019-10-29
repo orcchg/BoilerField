@@ -2,6 +2,15 @@ rootProject.utilityPlugins.each {
     apply plugin: it
 }
 
+android {
+    defaultConfig {
+        buildConfigField 'long', 'DEBOUNCE_CLICK', rootProject.ext.debounceClickMs
+        buildConfigField 'long', 'DEBOUNCE_INPUT', rootProject.ext.debounceInputMs
+        buildConfigField 'long', 'DEBOUNCE_INPUT_NETWORK', rootProject.ext.debounceInputNetworkMs
+        buildConfigField 'long', 'POST_DELAY', rootProject.ext.postDelayMs
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 

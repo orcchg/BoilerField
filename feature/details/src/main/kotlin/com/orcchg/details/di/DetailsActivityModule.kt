@@ -1,6 +1,6 @@
 package com.orcchg.details.di
 
-import com.orcchg.details.DetailsActivity
+import com.orcchg.details.view.DetailsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

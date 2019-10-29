@@ -1,6 +1,6 @@
 package com.orcchg.list.di
 
-import com.orcchg.list.ListFragment
+import com.orcchg.list.view.ListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

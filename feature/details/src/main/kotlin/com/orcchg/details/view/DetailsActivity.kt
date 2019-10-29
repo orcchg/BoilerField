@@ -1,4 +1,4 @@
-package com.orcchg.details
+package com.orcchg.details.view
 
 import com.orcchg.base.view.BaseActivity
 

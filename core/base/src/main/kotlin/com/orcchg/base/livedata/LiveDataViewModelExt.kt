@@ -43,3 +43,12 @@ fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T) -> 
 
 fun <T : Any, L : LiveData<OneShot<T>>> LifecycleOwner.observeOneShot(liveData: L, body: (T) -> Unit = {}) =
     liveData.observe(this, Observer { it.getContentIfNotHandled()?.let(body) })
+
+fun <T : Any, L : LiveData<T>> Fragment.observe(liveData: L, body: (T) -> Unit = {}) =
+    liveData.observe(viewLifecycleOwner, Observer(body))
+
+fun <T : Any, L : LiveData<T>> Fragment.observe(liveData: L, body: (T) -> Unit = {}, also: (T) -> Unit = {}) =
+    liveData.observe(viewLifecycleOwner, Observer { body(it) ; also(it) })
+
+fun <T : Any, L : LiveData<OneShot<T>>> Fragment.observeOneShot(liveData: L, body: (T) -> Unit = {}) =
+    liveData.observe(viewLifecycleOwner, Observer { it.getContentIfNotHandled()?.let(body) })

@@ -1,4 +1,4 @@
-package com.orcchg.details
+package com.orcchg.details.view
 
 import android.app.Application
 import com.orcchg.base.viewmodel.BaseViewModel

@@ -19,5 +19,5 @@ data class GithubUserEntity(
         const val COLUMN_URL_REPOS = "repos_url"
     }
 
-    override fun map(): GithubUser = GithubUser(login = login, url = url)
+    override fun map(): GithubUser = GithubUser(login = login, url = url, avatarUrl = avatarUrl)
 }

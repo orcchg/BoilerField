@@ -13,6 +13,11 @@ ext {
     host = '"boilerfield.com"'
     authority = '"https://boilerfield.com"'
     appnav = '"appnav://boilerfield.com"'
+
+    debounceClickMs = "500L"
+    debounceInputMs = "200L"
+    debounceInputNetworkMs = "500L"
+    postDelayMs = "1000L"
 }
 
 buildscript {
